@@ -8,6 +8,7 @@
   </head>
   <body>
     <main class="card" role="main" aria-labelledby="title">
+      <!-- 左側輸入區 -->
       <section class="left">
         <header>
           <h1 id="title">妙麗狗狗年齡計算機 🐶</h1>
@@ -15,53 +16,37 @@
         </header>
 
         <div class="control" role="form" aria-label="狗狗年齡計算表單">
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              gap: 10px;
-              flex: 1;
-              min-width: 200px;
-            "
-          >
-            <label for="birth">生日</label>
-            <input id="birth" type="date" aria-describedby="birthHelp" />
-          </div>
-
-          <div style="display: flex; align-items: center; gap: 8px">
-            <button id="calcBtn" type="button" aria-live="polite">
-              開始計算
-            </button>
-          </div>
+          <label for="birth">生日</label>
+          <input id="birth" type="date" aria-describedby="birthHelp" />
+          <button id="calcBtn" type="button" aria-live="polite">
+            開始計算
+          </button>
         </div>
+
         <!-- 體型選擇 -->
         <div class="control" aria-label="體型選擇">
-          <label class="label-title">體型</label>
-
-          <label class="radio">
-            <input type="radio" name="size" value="small" />
-            小型犬（4–5）
-          </label>
-
-          <label class="radio">
-            <input type="radio" name="size" value="medium" checked />
-            中型犬（4.5–6）
-          </label>
-
-          <label class="radio">
-            <input type="radio" name="size" value="large" />
-            大型犬（5–7）
-          </label>
+          <span class="label-title">體型</span>
+          <label class="radio"
+            ><input type="radio" name="size" value="small" />
+            小型犬（4–5）</label
+          >
+          <label class="radio"
+            ><input type="radio" name="size" value="medium" checked />
+            中型犬（4.5–6）</label
+          >
+          <label class="radio"
+            ><input type="radio" name="size" value="large" />
+            大型犬（5–7）</label
+          >
         </div>
       </section>
 
+      <!-- 右側結果區 -->
       <aside class="right" aria-labelledby="resultTitle">
-        <div style="display: flex; gap: 12px; align-items: center">
-          <div>
-            <div class="meta">妙麗</div>
-            <div style="font-size: 0.95rem; color: #54427a" id="resultNote">
-              （換算採用中型標準；顯示估算值與範圍）
-            </div>
+        <div class="meta-block">
+          <div class="meta">妙麗</div>
+          <div style="font-size: 0.95rem; color: #54427a" id="resultNote">
+            （換算採用中型標準；顯示估算值與範圍）
           </div>
         </div>
 
@@ -82,26 +67,22 @@
         </div>
       </aside>
 
-      <!-- ⬇️ 所有說明文合併成一塊，並放在所有內容最後 -->
-      <section class="info-block" style="grid-column: 1 / -1">
-        <div class="note" id="birthHelp">
-          本工具依照常用換算指引計算：第一年約 15 歲、第二年快速成熟約達 24 歲，
-          2 歲後依犬隻體型換算（柯基為中型，每年約增加 4–5
-          人類歲）。結果為估算值， 請以獸醫或實際健康狀況為準。
+      <!-- 專家數據放最後 -->
+      <!-- 專家數據區塊 -->
+      <section class="info-block">
+        <div class="info-content">
+          本工具依照常用換算指引計算：
+          <br />第一年約 15 歲、第二年快速成熟約達 24 歲， <br />2
+          歲後依犬隻體型換算（<span id="infoSize">中型犬（4.5–6）</span>），
+          每年約增加 <span id="infoRange">4.0–5.0</span> 人類歲。
+          <br />結果為估算值，請以獸醫或實際健康狀況為準。
         </div>
-        <footer
-          style="
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-          "
-        >
+        <footer>
           <div class="muted">
             計算公式提示：1st year = 15；2nd year + 約 9；後續每年約
-            4.5（中型平均）
+            <span id="infoAvg">4.5</span>（平均）
           </div>
-          <div class="pill">體型：中型</div>
+          <div class="pill" id="infoPill">體型：中型犬（4.5–6）</div>
         </footer>
       </section>
     </main>

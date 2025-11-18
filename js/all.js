@@ -169,3 +169,39 @@
     radio.addEventListener("change", displayResult)
   );
 })();
+const sizeRadios = document.querySelectorAll('input[name="size"]');
+const infoSize = document.getElementById("infoSize");
+const infoRange = document.getElementById("infoRange");
+const infoAvg = document.getElementById("infoAvg");
+const infoPill = document.getElementById("infoPill");
+
+sizeRadios.forEach((radio) => {
+  radio.addEventListener("change", () => {
+    const sizeValue = radio.value;
+    let range, avgText;
+    switch (sizeValue) {
+      case "small":
+        range = "3.5–4.5";
+        avgText = "4.0";
+        break;
+      case "medium":
+        range = "4.5–6";
+        avgText = "4.5";
+        break;
+      case "large":
+        range = "5–7";
+        avgText = "5.0";
+        break;
+    }
+    infoSize.textContent = `${
+      sizeValue === "small"
+        ? "小型犬"
+        : sizeValue === "medium"
+        ? "中型犬"
+        : "大型犬"
+    }（${range}）`;
+    infoRange.textContent = range;
+    infoAvg.textContent = avgText;
+    infoPill.textContent = `體型：${infoSize.textContent}`;
+  });
+});
