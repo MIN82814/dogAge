@@ -1,15 +1,17 @@
 (function () {
+  // DOM 元素
   const birthInput = document.getElementById("birth");
   const calcBtn = document.getElementById("calcBtn");
   const dogAgeEl = document.getElementById("dogAge");
   const humanAgeEl = document.getElementById("humanAge");
   const sizeRadios = document.querySelectorAll('input[name="size"]');
 
-  const infoNote = document.getElementById("birthHelp");
-  const pillEl = document.querySelector(".pill");
-  const formulaEl = document.querySelector(".muted");
+  const infoNote = document.getElementById("birthHelp"); // info block 說明
+  const pillEl = document.querySelector(".pill"); // 下方 pill
+  const formulaEl = document.querySelector(".muted"); // 下方公式提示
+  const resultNoteEl = document.getElementById("resultNote"); // 右側換算提示
 
-  // 換算參數表
+  // 體型參數對應表
   const SIZE_MAP = {
     small: {
       rateEstimate: 4,
@@ -33,6 +35,7 @@
 
   const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.2425;
 
+  // 解析日期
   function parseInputDate(val) {
     if (!val) return null;
     const parts = val.split("-");
@@ -44,12 +47,14 @@
     );
   }
 
+  // 計算狗狗年齡
   function calcDogAgeYears(birthDate, asOfDate) {
     const ms = asOfDate - birthDate;
     if (ms < 0) return -1;
     return ms / MS_PER_YEAR;
   }
 
+  // 狗狗年齡轉換成人類
   function dogToHumanYears(dogYears, options) {
     const rate = options.rateEstimate ?? 4.5;
     const rateMin = options.rateMin ?? 4;
@@ -75,22 +80,32 @@
     return Number.isFinite(num) ? num.toFixed(digits) : "—";
   }
 
+  // 更新 info-block 與相關文字
   function updateInfoBlock(selectedSize) {
     const cfg = SIZE_MAP[selectedSize];
-    // 更新 note
+
+    // 左下 info 說明
     infoNote.textContent = `本工具依照常用換算指引計算：第一年約 15 歲、第二年快速成熟約達 24 歲，2 歲後依犬隻體型換算（${
       cfg.label
     }），每年約增加 ${cfg.rateMin.toFixed(1)}–${cfg.rateMax.toFixed(
       1
     )} 人類歲。結果為估算值，請以獸醫或實際健康狀況為準。`;
-    // 更新 pill
+
+    // 下方 pill
     pillEl.textContent = `體型：${cfg.label}`;
-    // 更新公式
+
+    // 下方公式提示
     formulaEl.textContent = `計算公式提示：1st year = 15；2nd year + 約 9；後續每年約 ${cfg.rateEstimate.toFixed(
       1
     )}（平均）`;
+
+    // 右側結果文字
+    if (resultNoteEl) {
+      resultNoteEl.textContent = `（換算採用${cfg.label}標準；顯示估算值與範圍）`;
+    }
   }
 
+  // 顯示計算結果
   function displayResult() {
     const birthDate = parseInputDate(birthInput.value);
     if (!birthDate) {
@@ -130,7 +145,7 @@
     // 存生日
     localStorage.setItem("dogBirth", birthInput.value);
 
-    // 更新 info-block
+    // 更新 info block 與提示文字
     updateInfoBlock(selectedSize);
   }
 
@@ -138,7 +153,7 @@
   // 初始化
   // ----------------------
   window.addEventListener("DOMContentLoaded", () => {
-    // 若 localStorage 有生日就讀取
+    // 讀取 localStorage
     const saved = localStorage.getItem("dogBirth");
     if (saved) birthInput.value = saved;
 
